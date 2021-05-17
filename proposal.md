@@ -15,6 +15,8 @@ A personalized database of all known pokemon.
 
 `4` An ERD with two models (minimum) > User + 1 Resource (one to many) - (Lucidchart)
 
+![ERD rough draft](./img/ERD-Roughdraft.png)
+
 `5` Create (3-5) User Stories for the base user experience - ( [Reference](https://revelry.co/resources/development/user-stories-that-dont-suck/) )
 
 As a user, I want to:
@@ -47,3 +49,6 @@ As a user, I want to:
 `6` Resource's Restful Routing table ( [Readme](https://romebell.gitbook.io/sei-412/node-express/00readme-1/01intro-to-express/00readme#restful-routing) )
 
 `7` Find API and test to see if you can get data ( *be able to print data in the console using Axios, Node-Fetch, and/or Postman* )
+
+- [Pokemon API](https://pokeapi.co/)
+  - I can get data from this API
