@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
 app.use(session({
-  //What we will be givingthe user on our site as a session cookie
+  //What we will be giving the user on our site as a session cookie
   secret: SECRET_SESSION,
   //Don't save the session when it's modified
   resave: false,
