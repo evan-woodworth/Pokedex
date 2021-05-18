@@ -41,10 +41,10 @@ module.exports = {
       speed: {
         type: Sequelize.INTEGER
       },
-      evolutionOneId: {
+      evolvesFromId: {
         type: Sequelize.INTEGER
       },
-      evolutionTwoId: {
+      evolvesToId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
