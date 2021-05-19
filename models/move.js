@@ -19,8 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     accuracy: DataTypes.INTEGER,
     power: DataTypes.INTEGER,
-    pp: DataTypes.INTEGER,
-    damageClass: DataTypes.STRING
+    pp: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'move',

@@ -1,4 +1,5 @@
 const db = require('./models');
+const axios = require('axios');
 
 // test data
 const testGames = [
@@ -142,11 +143,16 @@ async function showMoves() {
     const theMoves = await db.move.findAll({include: [db.type, db.pokemon]});
     console.log('the move:');
     theMoves.forEach(move=>{
-        console.log(move);
+        console.log('----------')
+        console.log(move.name);
+        console.log(`Accuracy: ${move.accuracy}`);
+        console.log(`Power: ${move.power}`);
+        console.log(`pp: ${move.pp}`);
+        console.log(`Damage Class: ${move.damageClass}`);
         console.log('types:');
-        move.type.forEach(type=>console.log(type));
+        move.types.forEach(type=>console.log(type.name));
         console.log('pokemon:');
-        move.pokemon.forEach(pokemon=>console.log(pokemon));
+        move.pokemons.forEach(pokemon=>console.log(pokemon.name));
     })
 }
 async function showTypes() {
@@ -186,3 +192,96 @@ async function showGames() {
 // addGameToPokemon('red','Raichu');
 // addGameToPokemon('blue','Raichu');
 // addEvolution('Pikachu','Raichu');
+
+// axios.get(`http://pokeapi.co/api/v2/type/`)
+// .then(response => {
+//   theTypes = response.data.results;
+//   theTypes.forEach(type=>db.type.create({name:type.name}));
+// })
+// showTypes();
+
+// axios.get(`http://pokeapi.co/api/v2/version?limit=34`)
+// .then(response => {
+//   theGames = response.data.results;
+// //   theGames.forEach(game=>console.log(game.name))
+//   theGames.forEach(game=>db.game.create({name:game.name}));
+// })
+// showGames();
+
+// axios.get(`http://pokeapi.co/api/v2/move?limit=5`)
+// .then(response => {
+//   let theMoves = response.data.results;
+//   theMoves.forEach(move=>{
+//     axios.get(move.url)
+//     .then(response=>{
+//         let moveDetails = response.data;
+//         // console.log('----------');
+//         // console.log(move.name);
+//         // console.log(`Accuracy: ${moveDetails.accuracy}`);
+//         // console.log(`Power: ${moveDetails.power}`);
+//         // console.log(`pp: ${moveDetails.pp}`);
+//         // console.log(`Damage Class: ${moveDetails.damage_class.name}`);
+//         // console.log(`Type: ${moveDetails.type.name}`);
+//         db.move.create({
+//             name: move.name,
+//             accuracy: moveDetails.accuracy,
+//             power: moveDetails.power,
+//             pp: moveDetails.pp,
+//             damageClass: moveDetails.damage_class.name
+//         })
+//         .then(newMove=>{
+//             db.type.findOne({where:{name:moveDetails.type.name}})
+//             .then(theType=>{newMove.addType(theType)})
+//         })
+//     })
+//   })
+// })
+// showMoves();
+
+
+axios.get(`http://pokeapi.co/api/v2/pokemon-species?limit=5`)
+.then(response => {
+  let thePokemon = response.data.results;
+  thePokemon.forEach(pokemon=>{
+    axios.get(pokemon.url)
+    .then(response=>{
+        let pokemonSpecies = response.data;
+        axios.get(pokemonSpecies.varieties[0].pokemon.url)
+        .then(results=>{
+            let pokemonDetails = results.data;
+            console.log('----------');
+            // name: DataTypes.STRING,
+            console.log(pokemonDetails.name);
+            // number: DataTypes.INTEGER,
+            console.log(`number: ${pokemonDetails.id}`);
+            // sprite: DataTypes.STRING,
+            console.log(`sprite url: ${pokemonDetails.sprites.front_default}`);
+            // height: DataTypes.INTEGER,
+            console.log(`height: ${pokemonDetails.height}`);
+            // weight: DataTypes.INTEGER,
+            console.log(`weight: ${pokemonDetails.weight}`);
+            // hp: DataTypes.INTEGER,
+            console.log(`hp: ${pokemonDetails.stats[0].base_stat}`);
+            // attack: DataTypes.INTEGER,
+            console.log(`attack: ${pokemonDetails.stats[1].base_stat}`);
+            // defense: DataTypes.INTEGER,
+            console.log(`defense: ${pokemonDetails.stats[2].base_stat}`);
+            // specialAttack: DataTypes.INTEGER,
+            console.log(`special attack: ${pokemonDetails.stats[3].base_stat}`);
+            // specialDefense: DataTypes.INTEGER,
+            console.log(`special defense: ${pokemonDetails.stats[4].base_stat}`);
+            // speed: DataTypes.INTEGER,
+            console.log(`speed: ${pokemonDetails.stats[5].base_stat}`);
+        })
+        
+
+        // db.pokemon.create({
+        //     name: pokemon.name,
+        // })
+        // .then(newPokemon=>{
+        //     db.type.findOne({where:{name:pokemonDetails.type.name}})
+        //     .then(theType=>{newPokemon.addType(theType)})
+        // })
+    })
+  })
+})

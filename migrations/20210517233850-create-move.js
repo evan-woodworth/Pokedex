@@ -20,9 +20,6 @@ module.exports = {
       pp: {
         type: Sequelize.INTEGER
       },
-      damageClass: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
