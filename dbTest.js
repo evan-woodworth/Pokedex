@@ -19,14 +19,14 @@ const testMoves = [
         accuracy: 45,
         power: 54,
         pp: 10,
-        damageClass: 'Physical'
+        description: 'a move of sort'
     },
     {
         name: 'Slam',
         accuracy: 34,
         power: 23,
         pp: 12,
-        damageClass: 'Physical'
+        description: 'yeah whatever'
     }
 ];
 const testPokemon = [
@@ -102,8 +102,7 @@ async function addEvolution(basePokemon,evolvedPokemon) {
     const theBasePokemon = await db.pokemon.findOne({where:{name:basePokemon}});
     const theEvolvedPokemon = await db.pokemon.findOne({where:{name:evolvedPokemon}});
     await theEvolvedPokemon.setEvolvesFrom(theBasePokemon);
-    await theBasePokemon.addEvolvesTo(theEvolvedPokemon);
-    
+    await theBasePokemon.addEvolvesTo(theEvolvedPokemon);  
 }
 async function addGameToPokemon(game,pokemon){
     // each parameter is a string referencing name
@@ -115,7 +114,7 @@ async function addGameToPokemon(game,pokemon){
 
 // functions to show data
 async function showPokemon() {
-    const thePokemon = await db.pokemon.findAll({include: [db.type, db.move, db.game]});
+    const thePokemon = await db.pokemon.findAll({where:{name:'ivysaur'},include: [db.type, db.move, db.game]});
     console.log('the pokemon:');
     thePokemon.forEach(pokemon=>{
         console.log('-----------------');
@@ -129,12 +128,12 @@ async function showPokemon() {
         console.log('-----------------');
         pokemon.getEvolvesFrom()
         .then(unEvolved=>{
-            console.log(`evolves from: ${unEvolved?unEvolved.name:'nothing'}`)
+            console.log(`${pokemon.name} evolves from: ${unEvolved?unEvolved.name:'nothing'}`)
         });
         pokemon.getEvolvesTo()
         .then(evolved=>{
             for(let i=0; i<evolved.length; i++) {
-                console.log(`evolves to: ${evolved[i].name}`)
+                console.log(`${pokemon.name} evolves to: ${evolved[i].name}`)
             } 
         });
     })
@@ -172,13 +171,6 @@ async function showGames() {
 // testTypes.forEach(type=>addType(type));
 // testMoves.forEach(move=>addMove(move));
 // testPokemon.forEach(pokemon=>addPokemon(pokemon));
-
-
-// showPokemon();
-// db.pokemon.findOne({where:{name:'Pikachu'},include:[db.type]})
-// .then(pokemon=>{
-//     pokemon.types.forEach(type=>console.log(type.name))
-// })
 
 // addTypeToMove('normal','Scratch');
 // addTypeToMove('normal','Slam');
@@ -239,49 +231,133 @@ async function showGames() {
 // showMoves();
 
 
-axios.get(`http://pokeapi.co/api/v2/pokemon-species?limit=5`)
-.then(response => {
-  let thePokemon = response.data.results;
-  thePokemon.forEach(pokemon=>{
-    axios.get(pokemon.url)
-    .then(response=>{
-        let pokemonSpecies = response.data;
-        axios.get(pokemonSpecies.varieties[0].pokemon.url)
-        .then(results=>{
-            let pokemonDetails = results.data;
-            console.log('----------');
-            // name: DataTypes.STRING,
-            console.log(pokemonDetails.name);
-            // number: DataTypes.INTEGER,
-            console.log(`number: ${pokemonDetails.id}`);
-            // sprite: DataTypes.STRING,
-            console.log(`sprite url: ${pokemonDetails.sprites.front_default}`);
-            // height: DataTypes.INTEGER,
-            console.log(`height: ${pokemonDetails.height}`);
-            // weight: DataTypes.INTEGER,
-            console.log(`weight: ${pokemonDetails.weight}`);
-            // hp: DataTypes.INTEGER,
-            console.log(`hp: ${pokemonDetails.stats[0].base_stat}`);
-            // attack: DataTypes.INTEGER,
-            console.log(`attack: ${pokemonDetails.stats[1].base_stat}`);
-            // defense: DataTypes.INTEGER,
-            console.log(`defense: ${pokemonDetails.stats[2].base_stat}`);
-            // specialAttack: DataTypes.INTEGER,
-            console.log(`special attack: ${pokemonDetails.stats[3].base_stat}`);
-            // specialDefense: DataTypes.INTEGER,
-            console.log(`special defense: ${pokemonDetails.stats[4].base_stat}`);
-            // speed: DataTypes.INTEGER,
-            console.log(`speed: ${pokemonDetails.stats[5].base_stat}`);
-        })
-        
+// axios.get(`http://pokeapi.co/api/v2/pokemon-species?limit=5`)
+// .then(response => {
+//     let thePokemon = response.data.results;
+//     thePokemon.forEach(pokemon=>{
+//         axios.get(pokemon.url)
+//         .then(response=>{
+//             let pokemonSpecies = response.data;
+//             axios.get(pokemonSpecies.varieties[0].pokemon.url)
+//             .then(results=>{
+//                 let pokemonDetails = results.data;
+//                 let typeList = [];
+//                 let moveList = [];
+//                 let gameList = [];
+//                 // find the pokemon's type(s)
+//                 pokemonDetails.types.forEach(typeCase=>{typeList.push(typeCase.type.name)});
+//                 // find the pokemon's moves
+//                 pokemonDetails.moves.forEach(moveCase=>{
+//                     moveCase.version_group_details.forEach(vgCase=>{
+//                         let levelLearned = vgCase.level_learned_at;
+//                         let vgMethod = vgCase.move_learn_method.name;
+//                         let name = moveCase.move.name;
+//                         if( (vgMethod == "level-up") && (moveList.length<4) 
+//                             && !(moveList.includes(name)) && (levelLearned === 1) ){
+//                             moveList.push(name);
+//                         }
+//                     });
+//                 });
+//                 // find the pokemon's games
+//                 pokemonDetails.game_indices.forEach(gameIndex=>{
+//                     gameList.push(gameIndex.version.name);
+//                 })
+//                 // create the pokemon
+//                 db.pokemon.create({
+//                     name: pokemonDetails.name,
+//                     number: pokemonDetails.id,
+//                     sprite: pokemonDetails.sprites.front_default,
+//                     height: pokemonDetails.height,
+//                     weight: pokemonDetails.weight,
+//                     hp: pokemonDetails.stats[0].base_stat,
+//                     attack: pokemonDetails.stats[1].base_stat,
+//                     defense: pokemonDetails.stats[2].base_stat,
+//                     specialAttack: pokemonDetails.stats[3].base_stat,
+//                     specialDefense: pokemonDetails.stats[4].base_stat,
+//                     speed: pokemonDetails.stats[5].base_stat
+//                 })
+//                 .then(newPokemon=>{
+//                     // add the pokemon's types
+//                     db.type.findAll({where:{name:typeList}})
+//                     .then(types=>{types.forEach(type=>{newPokemon.addType(type)})})
+//                     // add the pokemon's moves
+//                     db.move.findAll({where:{name:moveList}})
+//                     .then(moves=>{moves.forEach(move=>{newPokemon.addMove(move)})})
+//                     // add the pokemon's games
+//                     db.game.findAll({where:{name:gameList}})
+//                     .then(games=>{games.forEach(game=>{newPokemon.addGame(game)})})
+//                 })
+//             })
+//         })
+//     })
+// })
+// showPokemon()
 
-        // db.pokemon.create({
-        //     name: pokemon.name,
-        // })
-        // .then(newPokemon=>{
-        //     db.type.findOne({where:{name:pokemonDetails.type.name}})
-        //     .then(theType=>{newPokemon.addType(theType)})
-        // })
-    })
-  })
-})
+// const fetchPokemonData = async () => {
+//     const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100');
+//     const { results } = response.data;
+//     for await (const pokemon of results) {
+//         const pokemonResponse = await axios.get(pokemon.url);
+//         const pokemonData = pokemonResponse.data;
+//         const { name, order, types } = pokemonData;
+//         console.log('-->');
+//         console.log('------- NAME ----------')
+//         console.log(name);
+//         console.log('------- TYPES ----------')
+//         console.log(types);
+//         console.log('-->');
+//     }
+// }
+// fetchPokemonData();
+
+// const fetchEvolutionData = async () => {
+//     const response = await axios.get('https://pokeapi.co/api/v2/evolution-chain?limit=467');
+//     const { results } = response.data;
+//     for await (const chain of results) {
+//         const chainResponse = await axios.get(chain.url);
+//         const basePokemon = chainResponse.data.chain;
+//         console.log('--------------')
+//         const getEvolution = (basePokemon, evolutions) => {
+//             const baseName = basePokemon.species.name;
+//             for (const evolution of evolutions) {
+//                 nextPokemonName = evolution.species.name
+//                 console.log(`${baseName} evolves to ${nextPokemonName}`)
+//                 if(evolution.evolves_to) {
+//                     getEvolution(evolution, evolution.evolves_to)
+//                 }
+//             }
+//         }
+
+//         getEvolution(basePokemon, basePokemon.evolves_to)
+//     }
+// }
+// fetchEvolutionData();
+
+const fetchEvolutionData = async () => {
+    const response = await axios.get('https://pokeapi.co/api/v2/evolution-chain/?limit=467');
+    const { results } = response.data;
+    let theCount = 0;
+    for await (const chain of results) {
+        const chainResponse = await axios.get(chain.url);
+        const basePokemon = chainResponse.data.chain;
+
+        const getEvolution = async (basePokemon, evolutions) => {
+            const baseForm = await db.pokemon.findOne({where:{name:basePokemon.species.name}});
+            for (const evolution of evolutions) {
+                const nextForm = await db.pokemon.findOne({where:{name:evolution.species.name}});
+                console.log(`${baseForm.name} evolves to ${nextForm.name}`)
+                await nextForm.setEvolvesFrom(baseForm);
+                await baseForm.addEvolvesTo(nextForm);  
+                if(evolution.evolves_to) {
+                    getEvolution(evolution, evolution.evolves_to)
+                }
+            }
+        }
+        
+        getEvolution(basePokemon, basePokemon.evolves_to)
+    }
+
+}
+fetchEvolutionData();
+// db.pokemon.findOne({where:{name:'wormadam'}}).then(result=>console.log(result))
+// db.pokemon.findAll().then(result=>console.log(result))

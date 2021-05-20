@@ -19,17 +19,24 @@ module.exports = {
       theMoves.forEach(move=>{
         axios.get(move.url)
         .then(response=>{
-            let moveDetails = response.data;
-            db.move.create({
-                name: move.name,
-                accuracy: moveDetails.accuracy,
-                power: moveDetails.power,
-                pp: moveDetails.pp
-            })
-            .then(newMove=>{
-                db.type.findOne({where:{name:moveDetails.type.name}})
-                .then(theType=>{newMove.addType(theType)})
-            })
+          let moveDetails = response.data;
+          let description = '';
+          moveDetails.flavor_text_entries.forEach(entry=>{
+            if(entry.language.name == "en"){
+              description = entry.flavor_text;
+            }
+          })
+          db.move.create({
+            name: move.name,
+            accuracy: moveDetails.accuracy,
+            power: moveDetails.power,
+            pp: moveDetails.pp,
+            description
+          })
+          .then(newMove=>{
+            db.type.findOne({where:{name:moveDetails.type.name}})
+            .then(theType=>{newMove.addType(theType)})
+          })
         })
       })
     })
