@@ -1,13 +1,20 @@
 <%  // declarations and logic
-    let theTypes = (thePokemon.types.length>1 ? 
+    let typeString = (thePokemon.types.length>1 ? 
         thePokemon.types.reduce((a,b)=>{return a.title+', '+b.title;}) 
         : thePokemon.types[0].title);
+    let theValidTypes = [];
+    thePokemon.types.forEach(type=>theValidTypes.push(type.name))
     let theValidGames = [];
     thePokemon.games.forEach(game=>theValidGames.push(game.name));
 %>
 <div id="container_show">
-    <div id="menu">
-
+    <div id="toggle_types">
+        <% theTypes.forEach(type=>{ %>
+            <% let active = (theValidTypes.includes(type.name) ? 'active' : 'inactive') %> 
+            <div class="type <%=active%>">
+                <p><%= type.title %></p>
+            </div>
+        <% }) %> 
     </div>
     <div id="show_pokemon">
         <div id="favorite">
@@ -34,7 +41,7 @@
             <% if(lastForm) {%>
                 <div class="lastForm">
                     <ul>
-                        <li>Evolves from <%= lastForm.title %></li>
+                        <li><a href="/pokemon/<%= lastForm.number %>">Evolves from <%= lastForm.title %></a></li>
                     </ul>
                 </div>
             <% } %>
@@ -42,7 +49,7 @@
                 <div class="nextForm">
                     <ul>
                         <% nextForms.forEach(entry=>{ %>
-                            <li>Can evolve to <%= entry.title %></li>
+                            <li><a href="/pokemon/<%= entry.number %>">Can evolve to <%= entry.title %></a></li>
                         <% }) %> 
                     </ul>
                 </div>
@@ -66,14 +73,15 @@
                 <ul>
                     <li>Height: <%= thePokemon.height %></li>
                     <li>Weight: <%= thePokemon.weight %></li>
-                    <li>Types:  <%= theTypes %></li>
+                    <li>Types:  <%= typeString %></li>
                 </ul>
             </div>
         </div>
         <div id="moves">
+            <h3>Basic Moves:</h3>
             <ul>
                 <% thePokemon.moves.forEach(move=>{ %>
-                    <li><%= move.title %> pp:<%= move.pp %></li>
+                    <li><%= move.title %> pp: <%= move.pp %></li>
                 <% }) %> 
             </ul>
         </div>

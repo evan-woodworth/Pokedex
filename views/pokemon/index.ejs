@@ -16,10 +16,12 @@
         <% allPokemon.forEach(pokemon => { %>
             <% let collected = (pokemonList.includes(pokemon.name) ? "collected" : "not_collected")  %> 
             <div class="pokeCard <%= collected %>">
-                <img src="<%= pokemon.sprite %>" alt="<%= pokemon.title %>">
-                <!-- <% if (pokemonList.includes(pokemon.name)) { %> 
-                    <img src="../../public/assets/pokeball.png" class="collected" alt="collected">
-                <% } %> -->
+                <span style="position: relative;">
+                    <img src="<%= pokemon.sprite %>" alt="<%= pokemon.title %>">
+                    <% if (pokemonList.includes(pokemon.name)) { %> 
+                        <img src="<%=collection ? '../assets/pokeball.png' : 'assets/pokeball.png'%>" class="collected" alt="collected">
+                    <% } %>
+                </span>
                 <a href="/pokemon/<%= pokemon.number %>"><%= pokemon.title %></a>
                 <p><%= pokemon.number %></p>
             </div>

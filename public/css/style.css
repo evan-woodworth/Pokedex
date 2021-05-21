@@ -48,7 +48,7 @@ nav {
   grid-gap: none;
   grid-template-rows: .7fr .3fr;
   grid-template-columns: .2fr .8fr;
-  grid-template-areas: "menu show_pokemon"
+  grid-template-areas: "toggle_types show_pokemon"
                        "show_game show_game";
 }
 #show_pokemon {
@@ -59,7 +59,7 @@ nav {
   margin: none;
   display: grid;
   grid-gap: none;
-  grid-template-rows: .2fr .3fr .25fr .25fr;
+  grid-template-rows: .2fr .3fr .3fr .2fr;
   grid-template-columns: .5fr .5fr;
   grid-template-areas: "favorite info"
                        "pokemon_pic info"
@@ -93,10 +93,6 @@ nav {
 }
 p {
   margin: 0px;
-}
-#menu {
-  grid-area: menu;
-  background-color: darkred;
 }
 #show_game {
   grid-area: show_game;
@@ -185,6 +181,12 @@ p {
   justify-content: center;
   align-items: center;
 }
+#evolutions a {
+  text-decoration: none;
+  font-size: inherit;
+  font-style: inherit;
+  color: inherit;
+}
 #description {
   grid-area: description;
 }
@@ -242,16 +244,15 @@ p {
   text-decoration: none;
   font-size: inherit;
 }
-img.collection {
-  height: 15px;
-  width: auto;
+img.collected {
+  height: 18px;
+  width: 18px;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 4px;
+  right: 2px;
 }
 div.collected {
-  border: goldenrod solid 2px;
-  background-color: rgb(73, 73, 73);
+  border: rgb(202, 147, 7) solid 2px;
 }
 #login {
   justify-content: flex-start;

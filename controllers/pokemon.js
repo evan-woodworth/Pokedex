@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const passport = require('../config/ppConfig');
 const db = require('../models');
+const isLoggedIn = require('../middleware/isLoggedIn');
 
-router.get('/', async (req,res)=>{
+router.get('/', isLoggedIn, async (req,res)=>{
     const allPokemon = await db.pokemon.findAll({include:[db.game,db.type,db.user]});
     allPokemon.sort((a, b) => (a.number > b.number) ? 1 : -1);
     // all of the games
@@ -28,7 +29,7 @@ router.get('/', async (req,res)=>{
 })
 
 // show user's collection
-router.get('/collection', async (req,res)=>{
+router.get('/collection', isLoggedIn, async (req,res)=>{
     // the user's pokemon
     const theUser = await db.user.findOne({where:{name:req.user.name},include:[db.pokemon]});
     const pokemonList = [];
@@ -65,7 +66,7 @@ router.get('/collection', async (req,res)=>{
 })
 
 // filter pokemon
-router.get('/filter/:toggle/:value', async (req,res)=>{
+router.get('/filter/:toggle/:value', isLoggedIn, async (req,res)=>{
     // all of the games
     const theGames = await db.game.findAll();
     // all the types
@@ -102,7 +103,7 @@ router.get('/filter/:toggle/:value', async (req,res)=>{
     res.render('pokemon/index',{allPokemon, theGames, theValidGames, theTypes, theValidTypes, pokemonList, collection})
 })
 
-router.get('/:id', async (req,res)=>{
+router.get('/:id', isLoggedIn, async (req,res)=>{
     const thePokemon = await db.pokemon.findOne({
         where:{number:req.params.id},
         include:[db.type,db.move,db.game,db.user]
@@ -115,12 +116,15 @@ router.get('/:id', async (req,res)=>{
     const lastForm = await thePokemon.getEvolvesFrom();
     const nextForms = await thePokemon.getEvolvesTo();
     const theGames = await db.game.findAll();
+    const theTypes = await db.type.findAll();
+    // sorting
     theGames.sort((a, b) => (a.name > b.name) ? 1 : -1);
-    res.render('pokemon/show',{thePokemon, theGames, lastForm, nextForms, collectionStatus})
+    theTypes.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    res.render('pokemon/show',{thePokemon, theGames, theTypes, lastForm, nextForms, collectionStatus})
 })
 
 // POST
-router.post('/', async (req,res)=>{
+router.post('/', isLoggedIn, async (req,res)=>{
     const {pokemonName} = req.body;
     const theUser = await db.user.findOne({where:{id:req.user.id}});
     const thePokemon = await db.pokemon.findOne({where:{name:pokemonName}});
@@ -129,7 +133,7 @@ router.post('/', async (req,res)=>{
 })
 
 // DELETE
-router.delete('/', async (req,res)=>{
+router.delete('/', isLoggedIn, async (req,res)=>{
     const {pokemonName} = req.body;
     const theUser = await db.user.findOne({where:{id:req.user.id}});
     const thePokemon = await db.pokemon.findOne({where:{name:pokemonName}});
@@ -138,7 +142,7 @@ router.delete('/', async (req,res)=>{
 })
 
 // PUT
-router.put('/', async (req,res)=>{
+router.put('/', isLoggedIn, async (req,res)=>{
     const {sprite} = req.body;
     const theUser = await db.user.findOne({where:{id:req.user.id}});
     console.log('-----------------');
