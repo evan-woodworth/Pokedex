@@ -2,43 +2,81 @@
 const axios = require('axios');
 const db = require('../models');
 
-function createInBatches(url){
-  axios.get(url)
-  .then(response => {
-    let theMoves = response.data.results;
-    theMoves.forEach(move=>{
-      axios.get(move.url)
-      .then(response=>{
-        let moveDetails = response.data;
-        let description = '';
-        moveDetails.flavor_text_entries.forEach(entry=>{
-          if(entry.language.name == "en"){
-            description = entry.flavor_text;
-          }
-        })
-        let title = '';
-        moveDetails.names.forEach(entry=>{
-          if(entry.language.name == "en"){
-            title = entry.name;
-          }
-        })
-        db.move.create({
-          name: move.name,
-          accuracy: moveDetails.accuracy,
-          power: moveDetails.power,
-          pp: moveDetails.pp,
-          description,
-          title
-        })
-        .then(newMove=>{
-          db.type.findOne({where:{name:moveDetails.type.name}})
-          .then(theType=>{newMove.addType(theType)})
-        })
-      })
+const fetchMoveData = async () => {
+  const response = await axios.get("http://pokeapi.co/api/v2/move?limit=844");
+  const { results } = response.data;
+  let theCount = 0;
+  for await (const move of results) {
+    const moveResponse = await axios.get(move.url);
+    const moveDetails = moveResponse.data;
+    let title = '';
+    let description = '';
+    moveDetails.flavor_text_entries.forEach(entry=>{
+      if(entry.language.name == "en"){
+        description = entry.flavor_text;
+      }
     })
-    if(response.data.next){createInBatches(response.data.next)}
-  })
+    moveDetails.names.forEach(entry=>{
+      if(entry.language.name == "en"){
+        title = entry.name;
+      }
+    })
+    db.move.create({
+      name: move.name,
+      accuracy: moveDetails.accuracy,
+      power: moveDetails.power,
+      pp: moveDetails.pp,
+      description,
+      title
+    })
+    .then(newMove=>{
+      db.type.findOne({where:{name:moveDetails.type.name}})
+      .then(theType=>{newMove.addType(theType)})
+    })
+    theCount++;
+    console.clear()
+    console.log(`${theCount} of 844`)
+  }
 }
+
+
+// function createInBatches(url){
+//   axios.get(url)
+//   .then(response => {
+//     let theMoves = response.data.results;
+//     theMoves.forEach(move=>{
+//       axios.get(move.url)
+//       .then(response=>{
+//         let moveDetails = response.data;
+//         let description = '';
+//         moveDetails.flavor_text_entries.forEach(entry=>{
+//           if(entry.language.name == "en"){
+//             description = entry.flavor_text;
+//           }
+//         })
+//         let title = '';
+//         moveDetails.names.forEach(entry=>{
+//           if(entry.language.name == "en"){
+//             title = entry.name;
+//           }
+//         })
+//         db.move.create({
+//           name: move.name,
+//           accuracy: moveDetails.accuracy,
+//           power: moveDetails.power,
+//           pp: moveDetails.pp,
+//           description,
+//           title
+//         })
+//         .then(newMove=>{
+//           db.type.findOne({where:{name:moveDetails.type.name}})
+//           .then(theType=>{newMove.addType(theType)})
+//         })
+//       })
+//     })
+//     if(response.data.next){createInBatches(response.data.next)}
+//   })
+// }
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -51,7 +89,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    createInBatches(`http://pokeapi.co/api/v2/move?limit=844`)
+    fetchMoveData();
   },
 
   down: async (queryInterface, Sequelize) => {
