@@ -6,6 +6,7 @@ const fetchEvolutionData = async () => {
   const response = await axios.get('https://pokeapi.co/api/v2/evolution-chain/?limit=467');
   const { results } = response.data;
   let theCount = 0;
+  try{
   for await (const chain of results) {
     const chainResponse = await axios.get(chain.url);
     const basePokemon = chainResponse.data.chain;
@@ -26,6 +27,10 @@ const fetchEvolutionData = async () => {
     console.clear()
     console.log(`${theCount} of 467`)
     getEvolution(basePokemon, basePokemon.evolves_to)
+  }}
+  catch(error){
+    console.log('---------ERROR HERE --------');
+    console.log(error);
   }
 }
 
