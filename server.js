@@ -43,13 +43,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/profile', isLoggedIn, (req, res) => {
-  const { id, name, email } = req.user.get();
-  res.render('profile', { id, name, email });
+  const { id, name, email, profilePicture } = req.user.get();
+  res.render('profile', { id, name, email, profilePicture });
 });
 
 app.use('/auth', require('./controllers/auth'));
-app.use('/games', require('./controllers/games'));
-app.use('/moves', require('./controllers/moves'));
 app.use('/pokemon', require('./controllers/pokemon'));
 
 

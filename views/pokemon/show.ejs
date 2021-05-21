@@ -5,7 +5,7 @@
     let theValidGames = [];
     thePokemon.games.forEach(game=>theValidGames.push(game.name));
 %>
-<div id="container">
+<div id="container_show">
     <div id="menu">
 
     </div>
@@ -87,6 +87,10 @@
             <div class="game <%=active%>">
                 <p><%= game.title ? game.title : game.name %></p>
             </div>
-        <% }) %> 
+        <% }) %>
+        <% let active = (collectionStatus ? 'active' : 'inactive') %> 
+        <div class="game <%= active %>">
+            <p><%= collectionStatus ? '' : 'Not ' %>Collected</p>
+        </div>
     </div>
 </div>
