@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     power: DataTypes.INTEGER,
     pp: DataTypes.INTEGER,
     description: DataTypes.STRING,
+    title: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'move',

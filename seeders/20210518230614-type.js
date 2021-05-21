@@ -16,7 +16,23 @@ module.exports = {
      axios.get(`http://pokeapi.co/api/v2/type/`)
      .then(response => {
        let theTypes = response.data.results;
-       theTypes.forEach(type=>db.type.create({name:type.name}));
+       theTypes.forEach(type=>{
+        axios.get(type.url)
+        .then(results=>{
+          let typeDetails = results.data;
+          let title = '';
+          typeDetails.names.forEach(entry=>{
+            if(entry.language.name == "en"){
+              title = entry.name;
+            }
+          })
+          db.type.create({
+            name:type.name,
+            title
+          })
+        })
+        
+       });
      })
   },
 

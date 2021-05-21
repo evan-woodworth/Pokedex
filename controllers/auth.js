@@ -30,7 +30,11 @@ router.post('/signup', async (req,res)=>{
   try {
     const [user, created] = await db.user.findOrCreate({
       where: {email},
-      defaults: { name, password }
+      defaults: {
+        name,
+        password,
+        profilePicture: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+      }
     });
 
     if (created) {

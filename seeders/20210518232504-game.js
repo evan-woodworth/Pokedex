@@ -16,7 +16,22 @@ module.exports = {
     axios.get(`http://pokeapi.co/api/v2/version?limit=34`)
     .then(response => {
       let theGames = response.data.results;
-      theGames.forEach(game=>db.game.create({name:game.name}));
+      theGames.forEach(game=>{
+        axios.get(game.url)
+        .then(results=>{
+          let gameDetails = results.data;
+          let title = '';
+          gameDetails.names.forEach(entry=>{
+            if(entry.language.name == "en"){
+              title = entry.name;
+            }
+          })
+          db.game.create({
+            name:game.name,
+            title
+          });
+        })
+      });
     })
   },
 

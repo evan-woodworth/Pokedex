@@ -1,0 +1,31 @@
+<%  // declarations and logic
+    let theValidGames = theGames;
+    let theValidTypes = theTypes;
+%> 
+
+<h1>The pokemon</h1>
+<ul>
+    <% allPokemon.forEach(pokemon => { %>
+        <li>#<%= pokemon.number %>: <%= pokemon.title %></li>
+    <% }); %> 
+</ul>
+
+
+
+
+<div id="toggle_games">
+    <% theGames.forEach(game=>{ %>
+        <% let active = (theValidGames.includes(game.name) ? 'active' : 'inactive') %> 
+        <div class="game <%=active%>">
+            <p><%= game.title ? game.title : game.name %></p>
+        </div>
+    <% }) %> 
+</div>
+<div id="toggle_types">
+    <% theTypes.forEach(type=>{ %>
+        <% let active = (theValidTypes.includes(type.name) ? 'active' : 'inactive') %> 
+        <div class="type <%=active%>">
+            <p><%= type.title %></p>
+        </div>
+    <% }) %> 
+</div>

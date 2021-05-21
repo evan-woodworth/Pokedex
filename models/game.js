@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   game.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    title: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'game',

@@ -5,9 +5,9 @@ const app = express();
 const session = require('express-session');
 const flash = require('connect-flash');
 const SECRET_SESSION = process.env.SECRET_SESSION;
-console.log(SECRET_SESSION);
 const passport = require('./config/ppConfig');
-const isLoggedIn = require('./middleware/isLoggedIn')
+const isLoggedIn = require('./middleware/isLoggedIn');
+const methodOverride = require('method-override');
 
 app.set('view engine', 'ejs');
 
@@ -15,6 +15,7 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+app.use(methodOverride('_method'))
 app.use(session({
   //What we will be giving the user on our site as a session cookie
   secret: SECRET_SESSION,
@@ -47,6 +48,9 @@ app.get('/profile', isLoggedIn, (req, res) => {
 });
 
 app.use('/auth', require('./controllers/auth'));
+app.use('/games', require('./controllers/games'));
+app.use('/moves', require('./controllers/moves'));
+app.use('/pokemon', require('./controllers/pokemon'));
 
 
 const PORT = process.env.PORT || 3000;

@@ -1,0 +1,92 @@
+<%  // declarations and logic
+    let theTypes = (thePokemon.types.length>1 ? 
+        thePokemon.types.reduce((a,b)=>{return a.title+', '+b.title;}) 
+        : thePokemon.types[0].title);
+    let theValidGames = [];
+    thePokemon.games.forEach(game=>theValidGames.push(game.name));
+%>
+<div id="container">
+    <div id="menu">
+
+    </div>
+    <div id="show_pokemon">
+        <div id="favorite">
+            <% if (collectionStatus) { %>
+                <form action="/pokemon/?_method=DELETE" method="POST">
+                    <input type="hidden" name="pokemonName" value="<%= thePokemon.name %>">
+                    <button type="submit">Remove from Collection</button>
+                </form>
+            <% } else { %>
+                <form action="/pokemon" method="POST">
+                    <input type="hidden" name="pokemonName" value="<%= thePokemon.name %>">
+                    <button type="submit">Add to Collection</button>
+                </form>
+            <% } %>
+            <form action="/pokemon/?_method=PUT" method="POST">
+                <input type="hidden" name="sprite" value="<%= thePokemon.sprite %>">
+                <button type="submit">Make Profile Picture</button>
+            </form>
+        </div>
+        <div id="pokemon_pic">
+            <img src="<%= thePokemon.sprite %>" alt="<%= thePokemon.name %> sprite" class="pokemon_image">
+        </div>
+        <div id="evolutions">
+            <% if(lastForm) {%>
+                <div class="lastForm">
+                    <ul>
+                        <li>Evolves from <%= lastForm.title %></li>
+                    </ul>
+                </div>
+            <% } %>
+            <% if(nextForms) {%>
+                <div class="nextForm">
+                    <ul>
+                        <% nextForms.forEach(entry=>{ %>
+                            <li>Can evolve to <%= entry.title %></li>
+                        <% }) %> 
+                    </ul>
+                </div>
+            <% } %>
+        </div>
+        <div id="info">
+            <div class="primary">
+                <h1><%= thePokemon.title %> - <%= thePokemon.number %></h1>
+            </div>
+            <div class="secondary">
+                <ul>
+                    <li>HP: <%= thePokemon.hp %></li>
+                    <li>Attack: <%= thePokemon.attack %></li>
+                    <li>Defense: <%= thePokemon.defense %></li>
+                    <li>Special Attack: <%= thePokemon.specialAttack %></li>
+                    <li>Special Defense: <%= thePokemon.specialDefense %></li>
+                    <li>Speed: <%= thePokemon.speed %></li>
+                </ul>
+            </div>
+            <div class="body">
+                <ul>
+                    <li>Height: <%= thePokemon.height %></li>
+                    <li>Weight: <%= thePokemon.weight %></li>
+                    <li>Types:  <%= theTypes %></li>
+                </ul>
+            </div>
+        </div>
+        <div id="moves">
+            <ul>
+                <% thePokemon.moves.forEach(move=>{ %>
+                    <li><%= move.title %> pp:<%= move.pp %></li>
+                <% }) %> 
+            </ul>
+        </div>
+        <div id="description">
+            <p><%= thePokemon.flavorText %></p>
+        </div>
+    </div>
+    <div id="show_game">
+        <% theGames.forEach(game=>{ %>
+            <% let active = (theValidGames.includes(game.name) ? 'active' : 'inactive') %> 
+            <div class="game <%=active%>">
+                <p><%= game.title ? game.title : game.name %></p>
+            </div>
+        <% }) %> 
+    </div>
+</div>

@@ -47,6 +47,12 @@ module.exports = {
       evolvesToId: {
         type: Sequelize.INTEGER
       },
+      title: {
+        type: Sequelize.STRING
+      },
+      flavorText: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

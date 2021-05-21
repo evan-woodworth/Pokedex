@@ -17,12 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       models.pokemon.belongsToMany(models.game,{through:'gamesPokemons'});
       models.pokemon.hasOne(models.pokemon,{
         as:'evolvesFrom',
-        foreignKey:'evolvesFromId',
+        foreignKey:'evolvesToId',
         targetKey:'id'
       });
       models.pokemon.hasMany(models.pokemon,{
         as:'evolvesTo',
-        foreignKey:'evolvesToId',
+        foreignKey:'evolvesFromId',
         targetKey:'id'
       });
     }
@@ -40,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     specialDefense: DataTypes.INTEGER,
     speed: DataTypes.INTEGER,
     evolvesFromId: DataTypes.INTEGER,
-    evolvesToId: DataTypes.INTEGER
+    evolvesToId: DataTypes.INTEGER,
+    title: DataTypes.STRING,
+    flavorText: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'pokemon',

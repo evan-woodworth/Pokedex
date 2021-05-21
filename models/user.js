@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.user.belongsToMany(models.pokemon, {through:'usersPokemon'});
+      models.user.belongsToMany(models.pokemon, {through:'usersPokemons'});
     }
   };
   user.init({
@@ -41,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password must be between 8 and 99 characters'
         }
       }
-    }
+    },
+    profilePicture: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'user',

@@ -1,9 +1,143 @@
+html {
+  height: 100%;
+}
 nav ul li {
   text-decoration: none;
   display: inline-block;
   margin-right: .3em;
 }
-
-h1 {
-  color: chartreuse;
+form {
+  display:flex;
+  justify-content: space-around;
+  align-content: space-around;
+}
+button {
+  background-color: skyblue;
+}
+nav a {
+  color: black;
+  text-decoration: none;
+  border: solid black 1px;
+  border-radius: 4px;
+  padding: 2px;
+}
+.profile_pic {
+  height: 50px;
+  width: 50px;
+  background-color: rgb(34, 119, 204);
+  border: 1px solid rgb(34, 119, 204);
+  border-radius: 25px;
+  margin: 5px;
+}
+body {
+  background-color: rgb(27, 27, 27);
+  color: yellow;
+  height: 100%;
+  width: 100%;
+}
+nav {
+  background-color: darkred;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+#container {
+  margin: none;
+  display: grid;
+  height: 95%;
+  grid-gap: none;
+  grid-template-rows: .7fr .3fr;
+  grid-template-columns: .2fr .8fr;
+  grid-template-areas: "menu show_pokemon"
+                       "show_game show_game";
+}
+#show_pokemon {
+  grid-area: show_pokemon;
+  height: 100%;
+  width: 100%;
+  padding: none;
+  margin: none;
+  display: grid;
+  grid-gap: none;
+  grid-template-rows: .2fr .3fr .25fr .25fr;
+  grid-template-columns: .5fr .5fr;
+  grid-template-areas: "favorite info"
+                       "pokemon_pic info"
+                       "pokemon_pic moves"
+                       "evolutions description";
+}
+p {
+  margin: 0px;
+}
+#menu {
+  grid-area: menu;
+  background-color: darkred;
+}
+#show_game {
+  grid-area: show_game;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content:flex-start;
+  align-content: flex-start;
+  padding: 1% 1%;
+  background-color: darkred;
+}
+.game {
+  border: solid lightblue 1px;
+  width: 14%;
+  height: 25px;
+  font-size: small;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size:15px;
+  margin: 1px;
+}
+.active {
+  background-color:skyblue;
+  color: black;
+}
+.inactive {
+  background-color:rgb(228, 228, 228);
+  color: rgb(117, 117, 117);
+}
+.pokemon_image {
+  width: auto;
+  height: 100%;
+}
+#favorite {
+  grid-area: favorite;
+  display: flex;
+  justify-content: space-around;
+  align-content: space-around;
+  padding: 5%;
+}
+#info {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+#pokemon_pic {
+  grid-area: pokemon_pic;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#moves {
+  grid-area: moves;
+}
+#evolutions {
+  grid-area: evolutions;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#description {
+  grid-area: description;
 }

@@ -13,9 +13,23 @@ function createInBatches(url){
         axios.get(pokemonSpecies.varieties[0].pokemon.url)
         .then(results=>{
           let pokemonDetails = results.data;
+          let flavorText = '';
+          let title = '';
           let typeList = [];
           let moveList = [];
           let gameList = [];
+          // find the pokemon's title
+          pokemonSpecies.names.forEach(entry=>{
+            if(entry.language.name == "en"){
+              title = entry.name;
+            }
+          })
+          // find the flavor text
+          pokemonSpecies.flavor_text_entries.forEach(entry=>{
+            if(entry.language.name == "en"){
+              flavorText = entry.flavor_text;
+            }
+          })
           // find the pokemon's type(s)
           pokemonDetails.types.forEach(typeCase=>{typeList.push(typeCase.type.name)});
           // find the pokemon's moves
@@ -38,7 +52,7 @@ function createInBatches(url){
           db.pokemon.create({
             name: pokemonSpecies.name,
             number: pokemonDetails.id,
-            sprite: pokemonDetails.sprites.front_default,
+            sprite: pokemonDetails.sprites.other["official-artwork"].front_default,
             height: pokemonDetails.height,
             weight: pokemonDetails.weight,
             hp: pokemonDetails.stats[0].base_stat,
@@ -46,7 +60,9 @@ function createInBatches(url){
             defense: pokemonDetails.stats[2].base_stat,
             specialAttack: pokemonDetails.stats[3].base_stat,
             specialDefense: pokemonDetails.stats[4].base_stat,
-            speed: pokemonDetails.stats[5].base_stat
+            speed: pokemonDetails.stats[5].base_stat,
+            title,
+            flavorText
           })
           .then(newPokemon=>{
             // add the pokemon's types
