@@ -259,3 +259,14 @@ div.collected {
 #login input, label {
   margin: 1% 1%;
 }
+#home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+  width: 100%;
+}
+#home h1, h2 {
+  display: inherit;
+}
