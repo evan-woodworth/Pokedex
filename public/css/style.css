@@ -260,14 +260,30 @@ div.collected {
 #login input, label {
   margin: 1% 1%;
 }
-#home {
+.home {
+  height: 90%;
+  width: 95%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 90%;
-  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-#home h1, h2 {
+.home h1, h3 {
   display: inherit;
+}
+.home span {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40%;
+  width: 40%;
+  margin: 10%;
+}
+img.home {
+  position: fixed;
+  height: 50%;
+  width: auto;
+  bottom: 10%;
+  right: 10%;
 }
