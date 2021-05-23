@@ -1,5 +1,6 @@
 html {
   height: 100%;
+  width: 100%
 }
 nav ul li {
   text-decoration: none;
@@ -45,23 +46,26 @@ nav {
   margin: none;
   display: grid;
   height: 95%;
+  width: 100%;
   grid-gap: none;
+  padding: none;
   grid-template-rows: .7fr .3fr;
   grid-template-columns: .2fr .8fr;
   grid-template-areas: "toggle_types show_pokemon"
-                       "show_game show_game";
+                       "toggle_games toggle_games";
 }
 #show_pokemon {
   grid-area: show_pokemon;
   height: 100%;
   width: 100%;
-  padding: none;
+  font-size: auto;
   margin: none;
+  padding: none;
   display: grid;
   grid-gap: none;
   grid-template-rows: .2fr .3fr .3fr .2fr;
   grid-template-columns: .5fr .5fr;
-  grid-template-areas: "favorite info"
+  grid-template-areas: "favorite primary"
                        "pokemon_pic info"
                        "pokemon_pic moves"
                        "evolutions description";
@@ -94,39 +98,74 @@ nav {
 p {
   margin: 0px;
 }
-#show_game {
-  grid-area: show_game;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content:flex-start;
-  align-content: flex-start;
-  padding: 1% 1%;
-  background-color: darkred;
-}
 .game {
   border: solid lightblue 1px;
-  width: 14%;
-  height: 25px;
-  font-size: small;
+  border-radius: 2px;
+  width: 100%;
+  height: auto;
+  font-size: auto;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
-  font-size:15px;
-  margin: 1px;
+  margin: none;
+  overflow-x: hidden;
 }
 .game a {
   text-decoration: none;
   font-size: inherit;
   color: inherit;
 }
+#toggle_games {
+  grid-area: toggle_games;
+  background-color: darkred;
+  padding: 0 2px 2px;
+  width: 100%;
+}
+.game_grid {
+  border: solid yellow 2px;
+  border-top: unset;
+  border-radius: 4px;
+  border-top-left-radius: unset;
+  border-top-right-radius: unset;
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  padding: 5px;
+}
+.grid_title {
+  border: solid yellow 2px;
+  border-bottom: unset;
+  padding-left: 5%;
+  text-align: center;
+  margin: 0 0 -2px;
+  width: auto;
+  border-top-right-radius: 15px;
+}
+#toggle_types {
+  grid-area: toggle_types;
+  background-color: darkred;
+  padding: 2px;
+  padding-right: 0;
+  padding-bottom: -2px;
+  width: 100%;
+}
+.type_grid {
+  border: solid yellow 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 5px 5px 5px;
+  margin-bottom: -5px;
+}
 .type {
   border: solid lightblue 1px;
-  width: 93%;
-  height: 25px;
-  font-size: small;
+  border-radius: 2px;
+  width: 100%;
+  height: 5%;
+  font-size: auto;
   display: flex;
   text-align: center;
   justify-content: center;
@@ -147,39 +186,52 @@ p {
   background-color:rgb(228, 228, 228);
   color: rgb(117, 117, 117);
 }
-.pokemon_image {
-  width: auto;
-  height: 100%;
-}
 #favorite {
   grid-area: favorite;
   display: flex;
   justify-content: space-around;
   align-content: space-around;
   padding: 5%;
+  height: 100%;
+  width: 100%;
 }
 #info {
   grid-area: info;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
   flex-wrap: wrap;
+  font-size: auto;
 }
 #pokemon_pic {
   grid-area: pokemon_pic;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.pokemon_image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 #moves {
   grid-area: moves;
+  height: 100%;
+  width: 100%;
 }
 #evolutions {
   grid-area: evolutions;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 #evolutions a {
   text-decoration: none;
@@ -189,28 +241,8 @@ p {
 }
 #description {
   grid-area: description;
-}
-#toggle_types {
-  grid-area: toggle_types;
-  background-color: darkred;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
   width: 100%;
-  justify-content: space-around;
-  align-items: center;
-  padding: 3%;
-  background-color: darkred;
-}
-#toggle_games {
-  grid-area: toggle_games;
-  background-color: darkred;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content:flex-start;
-  align-content: flex-start;
-  padding: 1%;
 }
 #display_pokemon {
   grid-area: display_pokemon;
@@ -286,4 +318,9 @@ img.home {
   width: auto;
   bottom: 10%;
   right: 10%;
+}
+#primary {
+  grid-area: primary;
+  height: 100%;
+  width: 100%;
 }
