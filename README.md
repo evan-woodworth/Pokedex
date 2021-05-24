@@ -1,32 +1,26 @@
 # Pokedex
 
-A personalized database of all known pokemon.
+A personalized database of all known pokemon. Keep track of the pokemon that you've caught, and view basic information about all pokemon!
 
+[Poke-track via Heroku](https://poke-track.herokuapp.com/)
+
+[Pokedex Github Repository](https://github.com/evan-woodworth/Pokedex)
 
 ## User Stories
 
 As a user, I want to:
 
 - Be able to view a list of all pokemon:
-  - In a given region
   - In a given game
-  - As a whole
-- Be able to keep track of the pokemon that I have caught:
-  - In a given region
-  - In a given game
-  - As a whole
-- Be able to keep track of badges that I have earned:
-  - In a given game
+  - Of a given type
+  - In my collection
   - As a whole
 - Be able to view details about the base version of a pokemon:
   - Various stats
   - An image of what they look like
   - Starting moves
   - Evolution chain
-  - Elemental properties, strengths and weaknesses
-- Be able to view information:
-  - Moves that pokemon can make
-  - Berries
+  - Elemental properties (types)
 - Feel like I'm using a pokedex:
   - Relevant graphics
   - Menu system layout
@@ -44,13 +38,16 @@ As a user, I want to:
  POST | /auth/signup | signup (Create) | Sign up and log in
  GET | /pokemon | display (Read) | display pokemon information
  GET | /pokemon/collection | display (Read) | display collected pokemon
- POST | /pokemon/collection/:id | Create (Create) | add pokemon to collection by id
+ GET | /filter/:toggle/:value | display (read) | display filtered pokemon
  GET | /pokemon/:id | display (Read) | display specific pokemon information
- GET | /region | display (Read) | display region information
- GET | /region/:name | display (Read) | display specific region information
- GET | /move | display (Read) | display move information
- GET | /move/:name | display (Read) | display specific move information
- GET | /game | display (Read) | display game information
- GET | /game/:name | display (Read) | display specific game information
+ POST | /pokemon/ | Create (Create) | add pokemon to collection by id
+ DELETE | /pokemon/ | Delete (Remove) | remove a pokemon from user's collection
+ PUT | /pokemon/ | Update (update) | change a user's profile picture to that of the currently viewed pokemon
+
+## Entity Relationship Diagram
+
+![ERD](./img/Pokedex-ERD.jpeg)
+
+
 
 
