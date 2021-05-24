@@ -1,16 +1,11 @@
-<%  // declarations and logic
-
-%> 
-
-
 <div id="container_index">
     <div id="toggle_types">
         <p class="grid_title">Type Filters</p>
         <div class="type_grid">
             <% theTypes.forEach(type=>{ %>
                 <% let active = (theValidTypes.includes(type.name) ? 'active' : 'inactive') %> 
-                <div class="type <%=active%>">
-                    <a href="/pokemon/filter/theValidTypes/<%= type.name %>"><%= type.title %></a>
+                <div class="type <%=active%>" onclick="location.href='/pokemon/filter/theValidTypes/<%= type.name %>';">
+                    <p><%= type.title %></p>
                 </div>
             <% }) %> 
         </div>
@@ -18,14 +13,14 @@
     <div id="display_pokemon">
         <% allPokemon.forEach(pokemon => { %>
             <% let collected = (pokemonList.includes(pokemon.name) ? "collected" : "not_collected")  %> 
-            <div class="pokeCard <%= collected %>">
+            <div class="pokeCard <%= collected %>" onclick="location.href='/pokemon/<%= pokemon.number %>';">
                 <span style="position: relative;">
                     <img src="<%= pokemon.sprite %>" alt="<%= pokemon.title %>">
                     <% if (pokemonList.includes(pokemon.name)) { %> 
-                        <img src="<%=collection ? '../assets/pokeball.png' : 'assets/pokeball.png'%>" class="collected" alt="collected">
+                        <img src="/assets/pokeball.png" class="collected" alt="collected">
                     <% } %>
                 </span>
-                <a href="/pokemon/<%= pokemon.number %>"><%= pokemon.title %></a>
+                <p><%= pokemon.title %></p>
                 <p><%= pokemon.number %></p>
             </div>
         <% }); %> 
@@ -35,17 +30,15 @@
         <div class="game_grid">
             <% theGames.forEach(game=>{ %>
                 <% let active = (theValidGames.includes(game.name) ? 'active' : 'inactive') %> 
-                <div class="game <%=active%>">
-                    <a href="/pokemon/filter/theValidGames/<%= game.name %>"><%= game.title ? game.title : game.name %></a>
+                <div class="game <%=active%>" onclick="location.href='/pokemon/filter/theValidGames/<%= game.name %>';">
+                    <p><%= game.title ? game.title : game.name %></p>
                 </div>
             <% }) %>
-            <div class="game active">
-                <% if(collection){ %> 
-                <a href="/pokemon">All Pokemon</a>
-                <% } else { %> 
-                <a href="/pokemon/collection">My Collection</a>
-                <% } %> 
-            </div>
+            <% if(collection){ %>
+                <div class="game active" onclick="location.href='/pokemon';"><p>All Pokemon</p></div>
+            <% } else { %>
+                <div class="game active" onclick="location.href='/pokemon/collection';"><p>My Collection</p></div>
+            <% } %>  
         </div>
 
     </div>

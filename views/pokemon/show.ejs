@@ -13,7 +13,7 @@
         <div class="type_grid">
             <% theTypes.forEach(type=>{ %>
                 <% let active = (theValidTypes.includes(type.name) ? 'active' : 'inactive') %> 
-                <div class="type <%=active%>">
+                <div class="type <%=active%>" onclick="location.href='/pokemon/filter/theValidTypes/<%= type.name %>';">
                     <p><%= type.title %></p>
                 </div>
             <% }) %>
@@ -97,14 +97,11 @@
         <div class="game_grid">
             <% theGames.forEach(game=>{ %>
                 <% let active = (theValidGames.includes(game.name) ? 'active' : 'inactive') %> 
-                <div class="game <%=active%>">
+                <div class="game <%=active%>" onclick="location.href='/pokemon/filter/theValidGames/<%= game.name %>';">
                     <p><%= game.title ? game.title : game.name %></p>
                 </div>
             <% }) %>
-            <% let active = (collectionStatus ? 'active' : 'inactive') %> 
-            <div class="game <%= active %>">
-                <p><%= collectionStatus ? '' : 'Not ' %>Collected</p>
-            </div>
+            <div class="game active" onclick="location.href='/pokemon/collection';"><p>My Collection</p></div>
         </div>
     </div>
 </div>

@@ -8,9 +8,16 @@ nav ul li {
   margin-right: .3em;
 }
 form {
-  display:flex;
+  display: flex;
   justify-content: space-around;
   align-content: space-around;
+}
+#login {
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
 }
 button {
   background-color: skyblue;
@@ -137,7 +144,6 @@ p {
 .grid_title {
   border: solid yellow 2px;
   border-bottom: unset;
-  padding-left: 5%;
   text-align: center;
   margin: 0 0 -2px;
   width: auto;
@@ -266,6 +272,7 @@ p {
   flex-direction: column;
   justify-content: space-around;
   align-content: space-around;
+  background-color: inherit;
 }
 .pokeCard img {
   width: 95%;
