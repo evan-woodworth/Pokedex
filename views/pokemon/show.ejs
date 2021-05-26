@@ -10,13 +10,15 @@
 <div id="container_show">
     <div id="toggle_types">
         <p class="grid_title">Type Filters</p>
-        <div class="type_grid">
-            <% theTypes.forEach(type=>{ %>
-                <% let active = (theValidTypes.includes(type.name) ? 'active' : 'inactive') %> 
-                <div class="type <%=active%>" onclick="location.href='/pokemon/filter/theValidTypes/<%= type.name %>';">
-                    <p><%= type.title %></p>
-                </div>
-            <% }) %>
+        <div class="toggleWrapper">
+            <div class="type_grid">
+                <% theTypes.forEach(type=>{ %>
+                    <% let active = (theValidTypes.includes(type.name) ? 'active' : 'inactive') %> 
+                    <div class="type <%=active%>" onclick="location.href='/pokemon/filter/theValidTypes/<%= type.name %>';">
+                        <p><%= type.title %></p>
+                    </div>
+                <% }) %>
+            </div>
         </div>
     </div>
     <div id="show_pokemon">
@@ -101,7 +103,6 @@
                     <p><%= game.title ? game.title : game.name %></p>
                 </div>
             <% }) %>
-            <div class="game active" onclick="location.href='/pokemon/collection';"><p>My Collection</p></div>
         </div>
     </div>
 </div>

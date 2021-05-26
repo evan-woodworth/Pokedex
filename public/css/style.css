@@ -137,7 +137,7 @@ p {
   border-top-right-radius: unset;
   display: grid;
   grid-gap: 2px;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   width: 100%;
   padding: 5px;
 }
@@ -154,17 +154,21 @@ p {
   background-color: darkred;
   padding: 2px;
   padding-right: 0;
-  padding-bottom: -2px;
+  padding-bottom: 0;
   width: 100%;
 }
-.type_grid {
+.toggleWrapper {
   border: solid yellow 2px;
+  height: 100%;
+  padding: 5px 5px 5px 5px;
+}
+.type_grid {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 5px 5px 5px 5px;
-  margin-bottom: -5px;
+
+  margin-bottom: 0;
 }
 .type {
   border: solid lightblue 1px;

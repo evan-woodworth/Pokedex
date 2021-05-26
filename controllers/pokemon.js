@@ -129,7 +129,7 @@ router.post('/', isLoggedIn, async (req,res)=>{
     const theUser = await db.user.findOne({where:{id:req.user.id}});
     const thePokemon = await db.pokemon.findOne({where:{name:pokemonName}});
     theUser.addPokemons(thePokemon);
-    res.redirect('/pokemon');
+    res.redirect('/pokemon/collection');
 })
 
 // DELETE
