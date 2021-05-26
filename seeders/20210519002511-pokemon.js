@@ -15,7 +15,6 @@ const fetchPokemonData = async () => {
     let title = '';
     let typeList = [];
     let moveList = [];
-    let gameList = [];
     // find the pokemon's title
     speciesDetails.names.forEach(entry=>{
       if(entry.language.name == "en"){
@@ -42,10 +41,6 @@ const fetchPokemonData = async () => {
         }
       });
     });
-    // find the pokemon's games
-    pokemonDetails.game_indices.forEach(gameIndex=>{
-      gameList.push(gameIndex.version.name);
-    })
     // create the pokemon
     const newPokemon = await db.pokemon.create({
       name: speciesDetails.name,
@@ -65,10 +60,8 @@ const fetchPokemonData = async () => {
     // add the pokemon's types, moves, and games
     const theTypes = await db.type.findAll({where:{name:typeList}});
     const theMoves = await db.move.findAll({where:{name:moveList}});
-    const theGames = await db.game.findAll({where:{name:gameList}});
     theTypes.forEach(type=>{newPokemon.addType(type)});
     theMoves.forEach(move=>{newPokemon.addMove(move)});
-    theGames.forEach(game=>{newPokemon.addGame(game)});
 
     theCount++;
     console.clear()
